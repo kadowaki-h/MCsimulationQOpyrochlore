@@ -1,7 +1,7 @@
 ######
 
-classical MC simulations of magnetic pyrochlore oxides 
-represented by pseudospin-1/2 Hamiltonian with non-Kramers ions
+classical MC simulations of magnetic pyrochlore oxides with non-Kramers ions 
+represented by pseudospin-1/2 Hamiltonian
               Onoda & Tanaka Phys. Rev. B 83, 094411 (2011) 
 under 111 magnetic field are performed using ALPS MC simulation software 
 by modifing an example file.
@@ -25,7 +25,7 @@ lattices_pyrochlore.xml
 
 A definition of the pyrochlore lattice to use ALPS MC simulation.
 see http://alps.comp-phys.org/mediawiki/index.php/Main_Page
-http://alps.comp-phys.org/mediawiki/index.php/Tutorials:LatticeHOWTO.
+    http://alps.comp-phys.org/mediawiki/index.php/Tutorials:LatticeHOWTO.
 
 ######
 
