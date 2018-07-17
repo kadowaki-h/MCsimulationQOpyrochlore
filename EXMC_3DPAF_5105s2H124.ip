@@ -1,0 +1,69 @@
+// classical MC simulations of 
+// magnetic pyrochlore oxides represented by pseudospin-1/2 Hamiltonian with non-Kramers ions
+//                               ( Onoda & Tanaka Phys. Rev. B 83, 094411 (2011) )
+// under 111 magnetic field.
+// These CMC simulations were used to study 3D and 2D quadrupole orders in Tb2+xTi2-xO7+y
+//                               ( Takatsu et al. PRL 116, 217201 (2016) )
+// 
+// $ export OMP_NUM_THREADS=1
+// $ ./heisenberg_2D3DPAF.ex < EXMC_3DPAF_5105s2H124.ip > EXMC_3DPAF_5105s2H124.op &
+
+LATTICE_LIBRARY = "./lattices_pyrochlore.xml";
+LATTICE = "pyrochlore hexagonal lattice";
+L=12;
+H=4;
+//        periodic boundary condition
+//        hexagonal lattice 12 x 12 x 4
+//        number of spins = 12 * L**2 * H = 6912
+
+SEED = 57218
+
+SWEEPS = 1000000;
+THERMALIZATION = 1000000;
+
+J = -1;
+//        J = - J_nn  (< 0  spin ice )
+
+delta = 0.0;
+q = 0.55;
+//        Takatsu et al. PRL 116, 217201 (2016)
+//        Onoda & Tanaka Phys. Rev. B 83, 094411 (2011)
+
+h111=0.0;
+//        h111 = 111 magnetic field
+//        1.0 T (Tb2Ti2O7 ~ 5 mu_B) -->  h111 = 3.35856 K
+
+ALGORITHM = "heisenberg; exchange"
+
+NUM_REPLICAS = 16
+T_MIN = 0.201
+T_MAX = 0.237
+
+TEMPERATURE_DISTRIBUTION_TYPE = 2
+OPTIMIZE_TEMPERATURE = 0
+
+{
+RANDOM_EXCHANGE = 0
+}
+
+// Exchange Monte Carlo Method
+//    Fukushima & Nemoto JPSJ 65, 1604 (1996)
+//    http://journals.jps.jp/doi/abs/10.1143/JPSJ.65.1604
+//
+// NUM_REPLICAS = 20
+//   number of replicas (temperatures) in T_MIN < T < T_MAX
+//
+// TEMPERATURE_DISTRIBUTION_TYPE = 2
+//   0 : explicit
+//   1 : equidistance in beta = 1/T
+//   2 : equidistance in 1/beta = T
+//   3 : equidistance in sqrt(beta)
+//
+// OPTIMIZE_TEMPERATURE = 1
+//   0 : no optimization
+//   1 : temperatures are optimized in T_MIN < T < T_MAX
+//
+// RANDOM_EXCHANGE = 0
+//   0 : no random
+//   1 : randomly exchanged
+

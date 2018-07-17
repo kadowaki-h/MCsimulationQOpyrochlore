@@ -1,0 +1,95 @@
+######
+
+classical MC simulations of magnetic pyrochlore oxides 
+represented by pseudospin-1/2 Hamiltonian with non-Kramers ions
+              Onoda & Tanaka Phys. Rev. B 83, 094411 (2011) 
+under 111 magnetic field are performed using ALPS MC simulation software 
+by modifing an example file.
+
+These CMC simulations were used to study 3D and 2D quadrupole orders 
+in Tb2+xTi2-xO7+y under 111 magnetic field.
+              Takatsu et al. PRL 116, 217201 (2016) 
+
+"heisenberg_2D3DPAF.h"
+  is modified from the original file
+  .../alps-2.3.0-src-with-boost/alps/example/parapack/heisenberg/heisenberg.h
+
+Replace "heisenberg.h" to "heisenberg_2D3DPAF.h"
+Complile and link to get an executable file
+       .../build23/example/parapack/heisenberg/heisenberg
+Run test example
+
+######
+
+lattices_pyrochlore.xml
+
+A definition of the pyrochlore lattice to use ALPS MC simulation.
+see http://alps.comp-phys.org/mediawiki/index.php/Main_Page
+http://alps.comp-phys.org/mediawiki/index.php/Tutorials:LatticeHOWTO.
+
+######
+
+Assuming that you use
+  Ubuntu16.04
+      and
+  alps-2.3.0
+        http://alps.comp-phys.org/mediawiki/index.php/Download_and_install_ALPS_2
+        http://alps.comp-phys.org/mediawiki/index.php/Building_ALPS_from_source
+
+(1) working directory before compile and link
+
+kado@u16-8G-1:~/kadowaki/3DPAF$ ls -lt
+-rw-r--r-- 1 kado kado  18706  7/ 17 13:53 lattices_pyrochlore.xml
+-rw-r--r-- 1 kado kado  17872  7/ 17 13:38 heisenberg_2D3DPAF.h
+
+(2) compile and link
+
+cd /home/kado/ALPS/alps-2.3.0-src-with-boost/alps/example/parapack/heisenberg
+cp /home/kado/kadowaki/3DPAF/heisenberg_2D3DPAF.h ./
+cp heisenberg_2D3DPAF.h heisenberg.h
+cd /home/kado/ALPS/build23
+sudo make
+cd /home/kado/kadowaki/3DPAF
+cp ~/ALPS/build23/example/parapack/heisenberg/heisenberg ./heisenberg_2D3DPAF.ex
+
+(3) working directory before runnig the test
+
+kado@u16-8G-1:~/kadowaki/3DPAF$ ls -lt
+-rw-r--r-- 1 kado kado   1817  7/ 17 18:30 EXMC_3DPAF_5105s2H124.ip
+-rwxr-xr-x 1 kado kado 959104  7/ 17 14:05 heisenberg_2D3DPAF.ex
+-rw-r--r-- 1 kado kado  18706  7/ 17 13:53 lattices_pyrochlore.xml
+-rw-r--r-- 1 kado kado  17872  7/ 17 13:38 heisenberg_2D3DPAF.h
+
+(4) run test simulation
+
+kado@u16-8G-1:~/kadowaki/3DPAF$ export OMP_NUM_THREADS=1
+kado@u16-8G-1:~/kadowaki/3DPAF$ ./heisenberg_2D3DPAF.ex < EXMC_3DPAF_5105s2H124.ip > EXMC_3DPAF_5105s2H124.op &
+10.5 h
+
+(5) make table of the result
+
+gfortran -Wall -o make_table_2D3DPAF_EXMC.ex make_table_2D3DPAF_EXMC.f90
+
+cat > filenames
+'EXMC_3DPAF_5105s2H124.op' 'EXMC_3DPAF_5105s2H124.tab'
+'end' ' end'
+
+./make_table_2D3DPAF_EXMC.ex < filenames 
+
+kado@u16-8G-1:~/kadowaki/3DPAF$ ls -lt
+-rw-rw-r-- 1 kado kado   8556  7/ 18 07:55 EXMC_3DPAF_5105s2H124.tab
+-rwxrwxr-x 1 kado kado    121  7/ 18 07:54 filenames
+-rwxrwxr-x 1 kado kado  26592  7/ 18 07:49 make_table_2D3DPAF_EXMC.ex
+-rw-rw-r-- 1 kado kado 259673  7/ 18 05:10 EXMC_3DPAF_5105s2H124.op
+-rw-r--r-- 1 kado kado   1817  7/ 17 18:30 EXMC_3DPAF_5105s2H124.ip
+-rwxr-xr-x 1 kado kado 959104  7/ 17 17:37 heisenberg_2D3DPAF.ex
+-rw-r--r-- 1 kado kado  20856  7/ 17 17:34 heisenberg_2D3DPAF.h
+-rw-r--r-- 1 kado kado   7175  7/ 17 15:58 make_table_2D3DPAF_EXMC.f90
+-rw-r--r-- 1 kado kado  18706  7/ 17 13:53 lattices_pyrochlore.xml
+
+(6) the table
+       EXMC_3DPAF_5105s2H124.tab
+is plotted and shown in "EXMC_3DPAF_5105s2H124.pdf"
+
+
+
